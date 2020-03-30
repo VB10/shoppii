@@ -1,6 +1,6 @@
 const SOCKET_PRODUCT = "product";
 const SOCKET_PRODUCT_DELIVERY = "product-delivery";
-const SOCKET_CONNECTION = "CONNECTION";
+const SOCKET_CONNECTION = "connection";
 
 
 

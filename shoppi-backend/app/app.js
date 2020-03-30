@@ -25,10 +25,10 @@ app.get('/', function (req, res) {
 });
 
 io.on(socketConstants.SOCKET_CONNECTION, function (socket) {
-    // socket.on('chat message', function (msg) {
-    //     io.emit('chat message', msg);
-    //     console.log("HEEE");
-    // });
+    socket.on('chat message', function (msg) {
+
+        io.emit('chat message', msg);
+    });
     socket.on(socketConstants.SOCKET_PRODUCT, async function (msg) {
         console.log(msg);
         var isOkey = await productController.updateProduct(msg);
