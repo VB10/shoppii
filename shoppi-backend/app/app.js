@@ -8,31 +8,35 @@ var cors = require('cors');
 var app = require('express')();
 const router = require('express').Router();
 const port = process.env.PORT || 4000;
+const socketConstants = require('./constants/socket_constants');
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 const productController = require('./controllers/product_controller');
-
-// const Product = require('./features/product/model/product');
 
 mongoose.connect("mongodb://localhost/product", {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
 
+// chat app 
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-io.on('connection', function (socket) {
-    socket.on('chat message', function (msg) {
-        io.emit('chat message', msg);
-        console.log("HEEE");
-    });
-    socket.on('product', async function (msg) {
+io.on(socketConstants.SOCKET_CONNECTION, function (socket) {
+    // socket.on('chat message', function (msg) {
+    //     io.emit('chat message', msg);
+    //     console.log("HEEE");
+    // });
+    socket.on(socketConstants.SOCKET_PRODUCT, async function (msg) {
         console.log(msg);
         var isOkey = await productController.updateProduct(msg);
-        console.log(isOkey);
+        if (isOkey) {
+            socket.emit(socketConstants.SOCKET_PRODUCT_DELIVERY)
+        } else {
+            console.log(isOkey);
+        }
     });
 });
 

@@ -47,7 +47,6 @@ const updateProduct = async (item) => {
         data.total = product.model.total;
         data.save();
         return true;
-
     }
 }
 
