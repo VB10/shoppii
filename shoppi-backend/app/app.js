@@ -26,14 +26,14 @@ app.get('/', function (req, res) {
 
 io.on(socketConstants.SOCKET_CONNECTION, function (socket) {
     socket.on('chat message', function (msg) {
-
         io.emit('chat message', msg);
     });
     socket.on(socketConstants.SOCKET_PRODUCT, async function (msg) {
-        console.log(msg);
         var isOkey = await productController.updateProduct(msg);
         if (isOkey) {
-            socket.emit(socketConstants.SOCKET_PRODUCT_DELIVERY)
+            console.log("okee");
+            var jsonModel = JSON.parse(msg);
+            io.emit(socketConstants.SOCKET_PRODUCT_DELIVERY, jsonModel.model)
         } else {
             console.log(isOkey);
         }
