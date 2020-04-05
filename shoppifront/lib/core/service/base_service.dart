@@ -1,9 +1,9 @@
-import 'base_network.dart';
+import 'package:shoppifront/core/service/shop_dio.dart';
 
-part './service-helper/service_constants.dart';
+part './service_constants.dart';
 
 class BaseService {
-  BaseNetwork service = BaseNetwork.instance;
+  ShoppiDio service = ShoppiDio.instance;
 
   _RoutePath routePath = _RoutePath.instance;
 }

@@ -1,4 +1,4 @@
-part of '../base_service.dart';
+part of 'base_service.dart';
 
 class _RoutePath {
   static _RoutePath _instance;

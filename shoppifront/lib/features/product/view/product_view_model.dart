@@ -18,8 +18,6 @@ abstract class ProductViewModel extends State<Product> {
   List<ProductModel> products = [];
 
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
-
-  // Add your state and logic here
   ProductService service = ProductService();
 
   @override
@@ -55,11 +53,7 @@ abstract class ProductViewModel extends State<Product> {
   }
 
   void initSocket() {
-    socket.on('connect', (_) {
-      // print('connect');
-      // socket.emit('msg', 'test');
-    });
-    socket.on('chat message', (data) => print(data));
+    socket.on('connect', (_) {});
     socket.on('disconnect', (_) => print('disconnect'));
     socket.on('fromServer', (_) => print(_));
   }
