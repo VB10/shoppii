@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shoppifront/features/product/service/product_service.dart';
 
 class SampleView extends StatefulWidget {
   @override
@@ -14,7 +13,7 @@ class _SampleViewState extends State<SampleView> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print("Bune tantana");
-          ProductService().fetchProductList();
+          // ProductService().fetchProductList();
         },
       ),
       body: Text("wqeqweqweqweqw"),

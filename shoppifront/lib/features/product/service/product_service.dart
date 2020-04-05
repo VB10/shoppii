@@ -1,26 +1,17 @@
-import 'package:fireball/fireball.dart';
-import 'package:fireball/network/local/local_preferences.dart';
-import 'package:shoppifront/features/product/model/product.dart';
+import '../../../core/service/base_service.dart';
+import '../model/product.dart';
 
-class ProductService {
-  NetworkManager manager;
+class ProductService extends BaseService {
+  Future<List<ProductModel>> fetchProducts() async {
+    final response = await service.get<ProductModel>(routePath.product,
+        responseModel: ProductModel());
 
-  ProductService() {
-    final config = NetworkConfig(
-        baseUrl: "http://localhost:4000", fileManager: LocalPreferences());
-    manager = NetworkManager(config: config);
+    return response;
   }
-  Future fetchProductList() async {
-    if (manager == null) {}
 
-    print(manager.config.baseUrl);
-    final response = await manager.get<ProductModel>("/product",
-        responseType: ProductModel());
-
-    if (response is ErrorModel) {
-      print(response);
-      print(response.raw);
-    }
+  Future postProduct(ProductModel model) async {
+    final response = await service.post(routePath.product,
+        responseModel: model, body: model);
     return response;
   }
 }

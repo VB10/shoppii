@@ -1,31 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shoppifront/features/product/model/product.dart';
 import './product_view_model.dart';
+import 'fields/create_product_view.dart';
 
 class ProductView extends ProductViewModel {
   @override
   Widget build(BuildContext context) {
     // Replace this with your build function
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
+        leading: IconButton(
+            icon: Icon(Icons.accessible),
+            onPressed: () async {
+              await service.postProduct(ProductModel());
+              print(true);
+            }),
         title: Text("Product List"),
       ),
-      body: FutureBuilder<List<ProductModel>>(
-        future: fetchAllDatas(),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              if (snapshot.hasData) return buildListViewWidget(snapshot.data);
-              return Text("error");
-            default:
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-          }
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => CreateProductView(
+              onComplete: (model) => onCompleteForm(model),
+            ),
+          );
         },
+        child: Icon(Icons.add),
       ),
+      body: buildFutureBuilder(),
     );
   }
+
+  FutureBuilder<List<ProductModel>> buildFutureBuilder() {
+    return FutureBuilder<List<ProductModel>>(
+      future: fetchAllDatas(),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            if (snapshot.hasData) return buildListViewWidget(snapshot.data);
+            return Text("error");
+          default:
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+        }
+      },
+    );
+  }
+
+  Widget get addMenuWidget => Card(
+        margin: EdgeInsets.all(15),
+        child: Form(
+          child: ListView(
+            // mainAxisSize: MainAxisSize.min,
+            padding: EdgeInsets.all(15),
+            children: <Widget>[
+              TextFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Product Title",
+                  icon: Icon(Icons.text_fields),
+                ),
+              ),
+              TextFormField(
+                  decoration: InputDecoration(hintText: "Product Image")),
+              TextFormField(
+                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                  decoration: InputDecoration(hintText: "Product Price")),
+              FloatingActionButton.extended(
+                  onPressed: () {}, label: Text("Save"))
+            ],
+          ),
+        ),
+      );
 
   ListView buildListViewWidget(List<ProductModel> data) {
     return ListView.builder(
@@ -35,9 +85,10 @@ class ProductView extends ProductViewModel {
           subtitle: Text("${data[index].weight}g  Total: ${data[index].total}"),
           leading: Image.network(data[index].image),
           trailing: IconButton(
-            icon: Icon(Icons.edit),
-            onPressed: () => showProductSheet(index),
-          ),
+              icon: Icon(Icons.edit),
+              onPressed: () {
+                showProductSheet(index);
+              }),
         ),
       ),
       itemCount: data.length,

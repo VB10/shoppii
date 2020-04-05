@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import 'package:fireball/network/model/response_model.dart';
 import 'package:flutter/material.dart';
-import 'package:shoppifront/core/model/global_model.dart';
-import 'package:shoppifront/core/view/widget/counter/number_counter.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import './product.dart';
 import '../../../core/constants/app.constants.dart';
+import '../../../core/model/global_model.dart';
+import '../../../core/view/widget/counter/number_counter.dart';
 import '../model/product.dart';
 import '../service/product_service.dart';
 
@@ -17,6 +16,8 @@ abstract class ProductViewModel extends State<Product> {
   final TextEditingController textEditingController1 = TextEditingController();
   final TextEditingController textEditingController2 = TextEditingController();
   List<ProductModel> products = [];
+
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   // Add your state and logic here
   ProductService service = ProductService();
@@ -29,11 +30,22 @@ abstract class ProductViewModel extends State<Product> {
 
   Future<List<ProductModel>> fetchAllDatas() async {
     if (products.isEmpty) {
-      ResponseModel response = await service.fetchProductList();
-      products = response.data;
-      return response.data;
+      products = await service.fetchProducts();
     }
     return products;
+  }
+
+  Future onCompleteForm(ProductModel model) async {
+    final response = await service.postProduct(model);
+    if (response is ProductModel) {
+      products = await service.fetchProducts();
+      setState(() {});
+    } else {
+      final body = jsonEncode(response);
+      final jsonModel = jsonDecode(body);
+      scaffoldKey.currentState
+          .showSnackBar(SnackBar(content: Text(jsonModel['message'])));
+    }
   }
 
   void showProductSheet(int index) {
