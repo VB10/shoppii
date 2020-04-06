@@ -23,6 +23,7 @@ class ShoppiDio with DioMixin implements Dio {
       receiveTimeout: 3000,
     );
     httpClientAdapter = DefaultHttpClientAdapter();
+    this.interceptors.add(LogInterceptor(responseBody: true));
   }
 
   Future make<T extends BaseModel>(String path,
@@ -38,11 +39,8 @@ class ShoppiDio with DioMixin implements Dio {
     final body = getBodyModel(data);
 
     try {
-      final response = await request(
-        path,
-        data: body,
-        options: options,
-      );
+      Response response = await request(path, data: body, options: options);
+      clear();
       return parseBody<T>(response.data, parserModel);
     } catch (e) {
       return onError(e);
@@ -72,8 +70,6 @@ class ShoppiDio with DioMixin implements Dio {
 
   dynamic parseBody<T extends BaseModel>(dynamic responseBody, T model) {
     try {
-      clear();
-
       if (responseBody is List) {
         return responseBody
             .map((data) => model.fromJson(data))

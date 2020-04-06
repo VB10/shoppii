@@ -1,7 +1,7 @@
-import 'package:shoppifront/core/service/base_network.dart';
+// import 'package:shoppifront/core/service/base_network.dart';
 
-class MockBaseService {
-  BaseNetwork service = BaseNetwork.instance;
+// class MockBaseService {
+//   BaseNetwork service = BaseNetwork.instance;
 
-  // _RoutePath routePath = _RoutePath.instance;
-}
+//   // _RoutePath routePath = _RoutePath.instance;
+// }

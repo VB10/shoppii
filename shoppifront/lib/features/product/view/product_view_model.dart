@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import './product.dart';
+import '../../../core/base/base_state.dart';
 import '../../../core/constants/app.constants.dart';
 import '../../../core/model/global_model.dart';
-import '../../../core/view/widget/counter/number_counter.dart';
 import '../model/product.dart';
 import '../service/product_service.dart';
+import 'fields/update_product_view.dart';
 
-abstract class ProductViewModel extends State<Product> {
+abstract class ProductViewModel extends BaseState<Product> {
   IO.Socket socket = IO.io(AppConstants.SOCKET_URL);
 
   final TextEditingController textEditingController1 = TextEditingController();
@@ -49,7 +50,17 @@ abstract class ProductViewModel extends State<Product> {
   void showProductSheet(int index) {
     textEditingController1.text = products[index].price.toString();
     showModalBottomSheet(
-        context: context, builder: (context) => modalSheetProduct(index));
+        context: context,
+        builder: (context) => UpdateProductView(
+              product: products[index],
+              controller: textEditingController1,
+              onComplete: (product) {
+                var globalModel = GlobalModel(index: index, model: product);
+                onSendSocketMessage(globalModel.toJson());
+                Navigator.of(context).pop();
+                setState(() {});
+              },
+            ));
   }
 
   void initSocket() {
@@ -60,36 +71,5 @@ abstract class ProductViewModel extends State<Product> {
 
   void onSendSocketMessage(String message) {
     socket.emit(AppConstants.SOCKET_CHANNEL, message);
-  }
-
-  Widget modalSheetProduct(int index) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Expanded(child: TextField(controller: textEditingController1)),
-          NumberCounterWidget(
-            value: products[index].total,
-            onChange: (val) {
-              products[index].total = val;
-            },
-          ),
-          RaisedButton.icon(
-              onPressed: () {
-                products[index].price =
-                    double.tryParse(textEditingController1.text);
-                var globalModel =
-                    GlobalModel(index: index, model: products[index]);
-                onSendSocketMessage(globalModel.toJson());
-                Navigator.of(context).pop();
-                setState(() {});
-                // onSendSocketMessage(message);
-              },
-              icon: Icon(Icons.update),
-              label: Text("Update2"))
-        ],
-      ),
-    );
   }
 }

@@ -7,16 +7,9 @@ import 'fields/create_product_view.dart';
 class ProductView extends ProductViewModel {
   @override
   Widget build(BuildContext context) {
-    // Replace this with your build function
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        leading: IconButton(
-            icon: Icon(Icons.accessible),
-            onPressed: () async {
-              await service.postProduct(ProductModel());
-              print(true);
-            }),
         title: Text("Product List"),
       ),
       floatingActionButton: FloatingActionButton(
@@ -55,8 +48,7 @@ class ProductView extends ProductViewModel {
         margin: EdgeInsets.all(15),
         child: Form(
           child: ListView(
-            // mainAxisSize: MainAxisSize.min,
-            padding: EdgeInsets.all(15),
+            padding: EdgeInsets.all(dynamicHeight(0.05)),
             children: <Widget>[
               TextFormField(
                 decoration: InputDecoration(
@@ -85,10 +77,7 @@ class ProductView extends ProductViewModel {
           subtitle: Text("${data[index].weight}g  Total: ${data[index].total}"),
           leading: Image.network(data[index].image),
           trailing: IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () {
-                showProductSheet(index);
-              }),
+              icon: Icon(Icons.edit), onPressed: () => showProductSheet(index)),
         ),
       ),
       itemCount: data.length,

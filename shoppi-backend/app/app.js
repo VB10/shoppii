@@ -31,7 +31,6 @@ io.on(socketConstants.SOCKET_CONNECTION, function (socket) {
     socket.on(socketConstants.SOCKET_PRODUCT, async function (msg) {
         var isOkey = await productController.updateProduct(msg);
         if (isOkey) {
-            console.log("okee");
             var jsonModel = JSON.parse(msg);
             io.emit(socketConstants.SOCKET_PRODUCT_DELIVERY, jsonModel.model)
         } else {
@@ -46,9 +45,11 @@ http.listen(port, function () {
 app.use(bodyParser.urlencoded({
     extended: true
 }));
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
 
-app.use(cors());
 app.use(bodyParser.json());
-// app.use(router);
-
 app.use(productController.router);
