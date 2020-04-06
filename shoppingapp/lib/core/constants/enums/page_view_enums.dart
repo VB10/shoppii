@@ -1,0 +1,1 @@
+enum PageViews { PRODUCT_LIST, PRODUCT_PAYMENT }
