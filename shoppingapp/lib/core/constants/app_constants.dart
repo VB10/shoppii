@@ -6,6 +6,7 @@ class AppConstants {
   AppConstants._init();
 
   static const double FREE_DELIVERY_MONEY = 40;
+  static const String S_ID = 'sId';
   static const String SOCKET_URL = "http://localhost:4000";
   static const String SOCKET_CHANNEL = "product";
   static const String SOCKET_CHANNEL_DELIVERY = "product-delivery";

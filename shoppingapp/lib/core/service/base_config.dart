@@ -23,10 +23,12 @@ class BaseConfig {
 
     dio.interceptors
         .add(InterceptorsWrapper(onRequest: (RequestOptions options) async {
+      // options.headers.
       return options; //continue
     }, onResponse: (Response response) async {
       return response; // continue
     }, onError: (DioError e) async {
+      // e.response.statusCode == 401? return "veli"
       return e; //continue
     }));
   }

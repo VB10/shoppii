@@ -27,6 +27,7 @@ class ProductModel extends BaseModel<ProductModel> {
     data['price'] = this.price;
     data['title'] = this.title;
     data['total'] = this.total;
+    data['sId'] = this.sId;
     return data;
   }
 

@@ -31,6 +31,7 @@ abstract class ProductViewModel extends BaseState<Product> {
     if (products.isEmpty) {
       products = await service.fetchProducts();
     }
+    print(products);
     return products;
   }
 

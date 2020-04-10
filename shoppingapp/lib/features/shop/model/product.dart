@@ -40,6 +40,24 @@ class Product extends BaseModel {
 
   @override
   Product fromJson(Map<String, Object> json) => Product.fromJson(json);
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is Product && o.title == title;
+  }
+
+  @override
+  int get hashCode {
+    return image.hashCode ^
+        price.hashCode ^
+        title.hashCode ^
+        sId.hashCode ^
+        weight.hashCode ^
+        count.hashCode ^
+        total.hashCode;
+  }
 }
 
 // List<Product> dummyList = [

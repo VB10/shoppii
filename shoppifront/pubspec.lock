@@ -129,7 +129,7 @@ packages:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.4.0"
+    version: "3.0.2"
   quiver:
     dependency: transitive
     description:
@@ -218,6 +218,6 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.6.1"
+    version: "3.7.0"
 sdks:
   dart: ">=2.7.0 <3.0.0"

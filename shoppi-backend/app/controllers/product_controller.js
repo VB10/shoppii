@@ -47,7 +47,7 @@ router.post(productPath, (req, res) => {
 
 const updateProduct = async (item) => {
     const product = JSON.parse(item);
-    const data = await Product.findById(product.model._id);
+    const data = await Product.findById(product.model.sId);
     if (!data) {
         return false;
     } else {

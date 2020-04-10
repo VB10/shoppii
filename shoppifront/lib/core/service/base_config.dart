@@ -1,4 +1,4 @@
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:dio/dio.dart';
 
@@ -9,8 +9,6 @@ class BaseConfig {
   BaseConfig() {
     BaseOptions options = BaseOptions(
       baseUrl: baseUrl,
-      contentType: ContentType.json.value,
-      // responseDecoder:
     );
 
     dio = Dio(options);

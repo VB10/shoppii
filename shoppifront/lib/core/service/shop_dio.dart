@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:dio/adapter.dart';
+import 'package:dio/adapter_browser.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'base_model.dart';
 
@@ -22,8 +22,7 @@ class ShoppiDio with DioMixin implements Dio {
       connectTimeout: 5000,
       receiveTimeout: 3000,
     );
-    httpClientAdapter = DefaultHttpClientAdapter();
-    this.interceptors.add(LogInterceptor(responseBody: true));
+    httpClientAdapter = BrowserHttpClientAdapter();
   }
 
   Future make<T extends BaseModel>(String path,
