@@ -68,7 +68,7 @@
       var socket = io();
       $('form').submit(function () {
         console.log(socket);
-        socket.emit('chat message', "veli");
+        socket.emit('chat message', $('#m').val());
         $('#m').val('');
         return false;
       });
