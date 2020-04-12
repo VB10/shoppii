@@ -2,7 +2,7 @@
 
 Shoppi is backend - mobile - front project.
 
-Design link: ![cuberto](https://dribbble.com/shots/6120171-Groceries-Shopping-App-Interaction)
+Design link: [Shopping-App-Interaction](https://dribbble.com/shots/6120171-Groceries-Shopping-App-Interaction)
 Design by @[Cuberto](https://dribbble.com/cuberto)
 
 If you want content detail, look my medium channel [VB10](https://medium.com/@vbacik.10)
