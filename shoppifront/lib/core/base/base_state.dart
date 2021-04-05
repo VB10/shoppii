@@ -10,5 +10,5 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   EdgeInsets insetHorizontal(double val) =>
       EdgeInsets.symmetric(horizontal: dynamicHeight(val));
   EdgeInsets insetVertical(double val) =>
-      EdgeInsets.symmetric(horizontal: dynamicHeight(val));
+      EdgeInsets.symmetric(vertical: dynamicHeight(val));
 }
