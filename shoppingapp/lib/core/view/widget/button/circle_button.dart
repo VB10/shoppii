@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class CircleIconButton extends StatelessWidget {
-  final VoidCallback onPressed;
-  final IconData icon;
-
-  const CircleIconButton({Key key, this.onPressed, this.icon})
-      : super(key: key);
+  const CircleIconButton({super.key, this.onPressed, this.icon});
+  final VoidCallback? onPressed;
+  final IconData? icon;
   @override
   Widget build(BuildContext context) {
-    return OutlineButton(
-      onPressed: this.onPressed,
+    return OutlinedButton(
+      onPressed: onPressed,
+      style: OutlinedButton.styleFrom(
+        shape: const CircleBorder(),
+        side: BorderSide(color: Theme.of(context).primaryColor),
+      ),
       child: Padding(
-        padding: EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(10),
         child: Icon(icon ?? FontAwesomeIcons.heart),
       ),
-      shape: CircleBorder(),
     );
   }
 }

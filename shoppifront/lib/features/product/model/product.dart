@@ -1,37 +1,67 @@
-import '../../../core/service/base_model.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:shoppifront/core/service/base_model.dart';
 
-class ProductModel extends BaseModel<ProductModel> {
-  double weight;
-  String sId;
-  String image;
-  double price;
-  String title;
-  double total;
+part 'product.g.dart';
 
-  ProductModel(
-      {this.weight, this.sId, this.image, this.price, this.title, this.total});
+@JsonSerializable()
+@immutable
+final class Product extends BaseModel<Product> with EquatableMixin {
+  Product({
+    this.sId,
+    this.image,
+    this.price,
+    this.title,
+    this.weight,
+    this.total = 999,
+  });
 
-  ProductModel.fromJson(Map<String, dynamic> json) {
-    weight = json['weight'].toDouble();
-    sId = json['_id'];
-    image = json['image'];
-    price = json['price'].toDouble();
-    title = json['title'];
-    total = json['total'].toDouble() ?? 5;
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return _$ProductFromJson(json);
   }
+  final String? image;
+  final double? price;
+  final String? title;
+  @JsonKey(name: '_id', ignore: true)
+  final String? sId;
+  final int? weight;
+  final int? total;
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['weight'] = this.weight;
-    data['image'] = this.image;
-    data['price'] = this.price;
-    data['title'] = this.title;
-    data['total'] = this.total;
-    data['sId'] = this.sId;
-    return data;
+  Product copyWith({
+    int? weight,
+    String? id,
+    String? image,
+    double? price,
+    String? title,
+    int? total,
+  }) {
+    return Product(
+      weight: weight ?? this.weight,
+      sId: id ?? this.sId,
+      image: image ?? this.image,
+      price: price ?? this.price,
+      title: title ?? this.title,
+      total: total ?? this.total,
+    );
   }
 
   @override
-  ProductModel fromJson(Map<String, Object> json) =>
-      ProductModel.fromJson(json);
+  Map<String, dynamic> toJson() {
+    return _$ProductToJson(this);
+  }
+
+  @override
+  Product fromJson(Map<String, dynamic> json) {
+    return Product.fromJson(json);
+  }
+
+  @override
+  List<Object?> get props => [
+        sId,
+        price,
+        title,
+        weight,
+        total,
+      ];
 }

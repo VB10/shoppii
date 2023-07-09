@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Shoppi',
-      home: Product(),
+      home: ProductScreen(),
     );
   }
 }

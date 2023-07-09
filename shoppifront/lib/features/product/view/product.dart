@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import './product_view.dart';
 
-class Product extends StatefulWidget {
-  
+class ProductScreen extends StatefulWidget {
   @override
-  ProductView createState() => new ProductView();
+  State<ProductScreen> createState() => ProductView();
 }
-  

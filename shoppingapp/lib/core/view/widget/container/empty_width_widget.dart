@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:shoppingapp/core/view/base/base_stateless.dart';
 
 class EmptyWidthWidget extends BaseStatelessWidget {
-  final double val;
+  final double value;
 
-  EmptyWidthWidget(this.val);
+  EmptyWidthWidget(this.value);
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: dynamicWidth(context: context, val: val ?? 0.2),
+      width: dynamicWidth(context: context, value: value ?? 0.2),
     );
   }
 }

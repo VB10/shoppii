@@ -1,54 +1,54 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:dio/adapter.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:dio/io.dart';
 
-import 'base_model.dart';
+import 'package:shoppingapp/core/service/base_model.dart';
 
 class ShoppiDioService with DioMixin implements Dio {
-  static ShoppiDioService _instance;
-  String baseUrl;
+  ShoppiDioService._init() {
+    String baseUrl;
+
+    if (Platform.isIOS) {
+      baseUrl = 'http://localhost:4000/';
+    } else {
+      baseUrl = 'http://10.0.2.2:4000/';
+    }
+    options = BaseOptions(
+      baseUrl: baseUrl,
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 3),
+    );
+    httpClientAdapter = IOHttpClientAdapter();
+    interceptors.add(LogInterceptor(responseBody: true));
+  }
+
+  static ShoppiDioService? _instance;
 
   static ShoppiDioService get instance {
-    if (_instance == null) {
-      _instance = ShoppiDioService._init();
-    }
-    return _instance;
+    _instance ??= ShoppiDioService._init();
+    return _instance!;
   }
 
-  ShoppiDioService._init() {
-    if (Platform.isIOS) {
-      baseUrl = "http://localhost:4000/";
-    } else {
-      baseUrl = "http://10.0.2.2:4000/";
-    }
-    this.options = BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
-    );
-    httpClientAdapter = DefaultHttpClientAdapter();
-    this.interceptors.add(LogInterceptor(responseBody: true));
-  }
-
-  Future make<T extends BaseModel>(String path,
-      {Map<String, dynamic> queryParameters,
-      Options options,
-      CancelToken cancelToken,
-      @required T parserModel,
-      dynamic data,
-      @required MethodType method,
-      ProgressCallback onReceiveProgress}) async {
+  Future<dynamic> make<T extends BaseModel>(
+    String path, {
+    required T parserModel,
+    required MethodType method,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    dynamic data,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     final options = Options();
     options.method = getMethodType(method);
     final body = getBodyModel(data);
 
     try {
-      Response response = await request(path, data: body, options: options);
+      final response = await request(path, data: body, options: options);
       return parseBody<T>(response.data, parserModel);
-    } catch (e) {
+    } on DioException catch (e) {
       return onError(e);
     }
   }
@@ -56,11 +56,9 @@ class ShoppiDioService with DioMixin implements Dio {
   String getMethodType(MethodType type) {
     switch (type) {
       case MethodType.GET:
-        return "GET";
+        return 'GET';
       case MethodType.POST:
-        return "POST";
-      default:
-        return null;
+        return 'POST';
     }
   }
 
@@ -69,34 +67,32 @@ class ShoppiDioService with DioMixin implements Dio {
       return data;
     } else if (data is BaseModel) {
       return data.toJson();
-    } else {
+    } else if (data is String) {
       return jsonDecode(data);
     }
+
+    return null;
   }
 
   dynamic parseBody<T extends BaseModel>(dynamic responseBody, T model) {
     try {
-      clear();
-
       if (responseBody is List) {
         return responseBody
-            .map((data) => model.fromJson(data))
+            .map((data) => model.fromJson(data as Map<String, dynamic>))
             .cast<T>()
             .toList();
-      } else if (responseBody is Map) {
+      } else if (responseBody is Map<String, Object>) {
         return model.fromJson(responseBody) as T;
       } else {
         return responseBody;
       }
     } catch (e) {
-      print(e);
       return responseBody;
     }
   }
 
-  onError(DioError error) {
-    // TODO BASE MODEL
-    return "Error";
+  String onError(DioException error) {
+    return 'Error';
   }
 }
 

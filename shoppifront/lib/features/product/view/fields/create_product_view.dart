@@ -1,26 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shoppifront/core/view/widget/picker/number_picker.dart';
 import 'package:shoppifront/core/view/widget/textfield/outline_text_field.dart';
 import 'package:shoppifront/features/product/model/product.dart';
 
 class CreateProductView extends StatefulWidget {
-  final Function(ProductModel model) onComplete;
+  final void Function(Product model) onComplete;
 
-  const CreateProductView({Key key, @required this.onComplete})
-      : super(key: key);
+  const CreateProductView({super.key, required this.onComplete});
   @override
   _CreateProductViewState createState() => _CreateProductViewState();
 }
 
 class _CreateProductViewState extends State<CreateProductView> {
-  TextEditingController titleController;
-  TextEditingController descriptionController;
-  TextEditingController priceController;
-  TextEditingController imageController;
-  TextEditingController weightController;
-  ProductModel model;
-  GlobalKey<FormState> formKey;
+  late final TextEditingController titleController;
+  late final TextEditingController descriptionController;
+  late final TextEditingController priceController;
+  late final TextEditingController imageController;
+  late final TextEditingController weightController;
+  late final Product model;
+  late final GlobalKey<FormState> formKey;
   bool _autoValidate = false;
 
   @override
@@ -32,7 +30,7 @@ class _CreateProductViewState extends State<CreateProductView> {
     imageController = TextEditingController(
         text: "https://source.unsplash.com/1600x900/?pasta");
     weightController = TextEditingController(text: "100");
-    model = ProductModel();
+    model = Product();
     formKey = GlobalKey();
   }
 
@@ -40,7 +38,8 @@ class _CreateProductViewState extends State<CreateProductView> {
   Widget build(BuildContext context) {
     return Form(
       key: formKey,
-      autovalidate: _autoValidate,
+      autovalidateMode:
+          _autoValidate ? AutovalidateMode.always : AutovalidateMode.disabled,
       child: ListView(
         padding: EdgeInsets.all(MediaQuery.of(context).size.height * 0.02),
         children: <Widget>[
@@ -69,7 +68,8 @@ class _CreateProductViewState extends State<CreateProductView> {
         number: 0,
         minValue: 10,
         onChanged: (value) {
-          model.total = value.toDouble();
+          // TODO: aaa
+          // model.total = value.toDouble();
         },
       )),
     );
@@ -106,7 +106,7 @@ class _CreateProductViewState extends State<CreateProductView> {
         icons: Icons.attach_money,
         validate: this._autoValidate,
         onValidator: minimumValueValidator,
-        inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+        // inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
         labelText: "Product Price");
   }
 
@@ -115,7 +115,7 @@ class _CreateProductViewState extends State<CreateProductView> {
         controller: descriptionController,
         icons: Icons.description,
         validate: this._autoValidate,
-        onValidator: emptyalueValidator,
+        onValidator: emptyValueValidator,
         labelText: "Product Description");
   }
 
@@ -124,7 +124,7 @@ class _CreateProductViewState extends State<CreateProductView> {
         controller: titleController,
         icons: Icons.title,
         validate: this._autoValidate,
-        onValidator: (data) => emptyalueValidator(data),
+        onValidator: (data) => emptyValueValidator(data),
         labelText: "Product Title");
   }
 
@@ -133,21 +133,21 @@ class _CreateProductViewState extends State<CreateProductView> {
         controller: weightController,
         icons: Icons.title,
         validate: this._autoValidate,
-        inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+        // inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
         onValidator: minimumValueValidator,
         labelText: "Product Weight");
   }
 
-  String urlValidator(String data) =>
-      data.isNotEmpty && Uri.parse(data).isAbsolute
+  String? urlValidator(String? data) =>
+      data == null || data.isNotEmpty && Uri.parse(data).isAbsolute
           ? null
           : "This field required or url is not validate.";
 
-  String emptyalueValidator(String data) =>
-      data.isEmpty ? "This field is required." : null;
+  String? emptyValueValidator(String? data) =>
+      data == null || data.isEmpty ? "This field is required." : null;
 
-  String minimumValueValidator(String data) =>
-      data.isEmpty || double.tryParse(data) == 0
+  String? minimumValueValidator(String? data) =>
+      data == null || data.isEmpty || double.tryParse(data) == 0
           ? "This field is required also minumum value 1 or higher"
           : null;
 
@@ -180,13 +180,14 @@ class _CreateProductViewState extends State<CreateProductView> {
       onPressed: () => showImage(), label: Text("Show Image"));
 
   void onConfirmModel() {
-    if (formKey.currentState.validate()) {
-      formKey.currentState.save();
-      model.price = double.parse(priceController.text);
-      model.title = titleController.text;
-      model.image = imageController.text;
-      model.weight = double.parse(weightController.text ?? 500);
-      widget.onComplete(model);
+    if (formKey.currentState?.validate() ?? false) {
+      formKey.currentState?.save();
+
+      widget.onComplete(model.copyWith(
+          price: double.parse(priceController.text),
+          title: titleController.text,
+          image: imageController.text,
+          weight: int.tryParse(weightController.text) ?? 500));
       Navigator.of(context).pop();
     } else {
       setState(() {
@@ -201,6 +202,5 @@ class _CreateProductViewState extends State<CreateProductView> {
   @override
   void dispose() {
     super.dispose();
-    model = null;
   }
 }

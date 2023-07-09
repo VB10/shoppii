@@ -2,23 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class OutlineTextField extends StatelessWidget {
-  final String labelText;
-  final IconData icons;
-  final String Function(String data) onValidator;
-  final TextEditingController controller;
-  final List<TextInputFormatter> inputFormatters;
-  final String initialValue;
-  final bool validate;
+  final String? labelText;
+  final IconData? icons;
+  final String? Function(String? data)? onValidator;
+  final TextEditingController? controller;
+  final List<TextInputFormatter>? inputFormatters;
+  final String? initialValue;
+  final bool? validate;
   const OutlineTextField(
-      {Key key,
+      {super.key,
       this.labelText,
       this.icons,
       this.onValidator,
       this.controller,
       this.inputFormatters,
       this.validate,
-      this.initialValue})
-      : super(key: key);
+      this.initialValue});
   @override
   Widget build(BuildContext context) {
     return TextFormField(

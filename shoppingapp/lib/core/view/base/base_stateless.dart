@@ -1,13 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 abstract class BaseStatelessWidget extends StatelessWidget {
-  double dynamicHeight({@required BuildContext context, @required double val}) {
-    return MediaQuery.of(context).size.height * val;
+  const BaseStatelessWidget({super.key});
+
+  double dynamicHeight({required BuildContext context, required double value}) {
+    return MediaQuery.of(context).size.height * value;
   }
 
-  double dynamicWidth({@required BuildContext context, @required double val}) {
-    return MediaQuery.of(context).size.width * val;
+  double dynamicWidth({required BuildContext context, required double value}) {
+    return MediaQuery.of(context).size.width * value;
   }
 
   TextTheme currentTextTheme(BuildContext context) =>

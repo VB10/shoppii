@@ -3,23 +3,22 @@ import 'package:shoppifront/core/base/base_state.dart';
 
 class NumberPicker extends StatefulWidget {
   final int number;
-  final Function(int value) onChanged;
+  final void Function(int value) onChanged;
   final int maxValue;
   final int minValue;
 
   const NumberPicker(
-      {Key key,
-      @required this.number,
-      this.onChanged,
+      {super.key,
+      required this.number,
+      required this.onChanged,
       this.maxValue = 100,
-      this.minValue = 0})
-      : super(key: key);
+      this.minValue = 0});
   @override
   _NumberPickerState createState() => _NumberPickerState();
 }
 
 class _NumberPickerState extends BaseState<NumberPicker> {
-  int number;
+  int number = 0;
 
   @override
   void initState() {
@@ -43,7 +42,7 @@ class _NumberPickerState extends BaseState<NumberPicker> {
         deIncerement,
         Text(
           "$number",
-          style: currentTheme.textTheme.headline4.copyWith(
+          style: currentTheme.textTheme.headlineMedium?.copyWith(
               fontWeight: FontWeight.bold,
               color: currentTheme.colorScheme.onSurface),
         ),
@@ -68,8 +67,6 @@ class _NumberPickerState extends BaseState<NumberPicker> {
 
   void updateNumber() {
     setState(() {});
-    if (widget.onChanged != null) {
-      widget.onChanged(number);
-    }
+    widget.onChanged(number);
   }
 }

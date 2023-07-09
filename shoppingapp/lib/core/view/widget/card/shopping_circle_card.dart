@@ -1,44 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:shoppingapp/core/constants/app_strings.dart';
 
-import '../../../../features/shop/model/product.dart';
+import 'package:shoppingapp/features/shop/model/product.dart';
 
 class ShoppingCardCircle extends StatelessWidget {
   const ShoppingCardCircle({
-    Key key,
-    @required this.currentTheme,
-    @required this.product,
+    required this.currentTheme,
+    required this.product,
+    super.key,
     this.index,
     this.isBadge = true,
-  }) : super(key: key);
+  });
 
   final ThemeData currentTheme;
   final Product product;
-  final int index;
+  final int? index;
   final bool isBadge;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(4.0),
+      padding: const EdgeInsets.all(4),
       child: index == null ? buildColumnCircle : buildHeroColumCircle,
     );
   }
 
   Hero get buildHeroColumCircle {
     return Hero(
-      tag: index != null ? AppStrings.instance.subHeroTag(index) : null,
+      tag: index != null ? AppStrings.instance.subHeroTag(index!) : UniqueKey(),
       child: buildColumnCircle,
     );
   }
 
   Column get buildColumnCircle => Column(
         children: <Widget>[
-          Spacer(),
+          const Spacer(),
           Expanded(
-              child:
-                  Stack(children: <Widget>[buildCircleImageAvatar(), badge])),
-          Spacer(),
+            child: Stack(children: <Widget>[buildCircleImageAvatar(), badge]),
+          ),
+          const Spacer(),
         ],
       );
 
@@ -50,21 +50,25 @@ class ShoppingCardCircle extends StatelessWidget {
           height: 14,
           width: 14,
           child: CircleAvatar(
-            backgroundColor: currentTheme.errorColor,
+            backgroundColor: currentTheme.colorScheme.error,
             child: Text(
               product.count.toString(),
-              style: currentTheme.textTheme.headline6
-                  .copyWith(color: currentTheme.canvasColor),
+              style: currentTheme.textTheme.titleLarge
+                  ?.copyWith(color: currentTheme.canvasColor),
             ),
           ),
         ),
       );
 
-  CircleAvatar buildCircleImageAvatar() {
+  Widget buildCircleImageAvatar() {
+    final imageUrl = product.image;
+    if (imageUrl == null) {
+      return const SizedBox();
+    }
     return CircleAvatar(
       backgroundColor: currentTheme.canvasColor,
       child: Image.network(
-        product.image,
+        imageUrl,
         height: 20,
         width: 20,
       ),

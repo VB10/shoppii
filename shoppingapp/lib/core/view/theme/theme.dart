@@ -2,47 +2,26 @@ import 'package:flutter/material.dart';
 
 final ThemeData myTheme = ThemeData(
   brightness: Brightness.light,
-  primaryColor: Color(0xff000000),
-  primaryColorBrightness: Brightness.dark,
-  primaryColorLight: Color(0xffffcccc),
-  primaryColorDark: Color(0xffFDC44A),
-  accentColor: Color(0xffff0000),
-  accentColorBrightness: Brightness.dark,
-  canvasColor: Color(0xfffafafa),
-  scaffoldBackgroundColor: Color(0xfffafafa),
-  bottomAppBarColor: Color(0xffffffff),
-  cardColor: Color(0xffffffff),
-  dividerColor: Color(0x1f000000),
-  highlightColor: Color(0x66bcbcbc),
-  splashColor: Color(0x66c8c8c8),
-  selectedRowColor: Color(0xfff5f5f5),
-  unselectedWidgetColor: Color(0x8a000000),
-  disabledColor: Color(0x61000000),
-  buttonColor: Color(0xffe0e0e0),
-  toggleableActiveColor: Color(0xffcc0000),
-  secondaryHeaderColor: Color(0xffffe5e5),
-  textSelectionColor: Color(0xffff9999),
-  cursorColor: Color(0xff4285f4),
-  textSelectionHandleColor: Color(0xffff6666),
-  backgroundColor: Color(0xffff9999),
-  dialogBackgroundColor: Color(0xffffffff),
-  indicatorColor: Color(0xffff0000),
-  hintColor: Color(0x8a000000),
-  errorColor: Color(0xffd32f2f),
-  buttonTheme: ButtonThemeData(
-    textTheme: ButtonTextTheme.normal,
-    minWidth: 88,
-    height: 36,
-    padding: EdgeInsets.only(top: 0, bottom: 0, left: 16, right: 16),
+  primaryColor: const Color(0xff000000),
+  primaryColorLight: const Color(0xffffcccc),
+  primaryColorDark: const Color(0xffFDC44A),
+  canvasColor: const Color(0xfffafafa),
+  scaffoldBackgroundColor: const Color(0xfffafafa),
+  cardColor: const Color(0xffffffff),
+  dividerColor: const Color(0x1f000000),
+  highlightColor: const Color(0x66bcbcbc),
+  splashColor: const Color(0x66c8c8c8),
+  unselectedWidgetColor: const Color(0x8a000000),
+  disabledColor: const Color(0x61000000),
+  secondaryHeaderColor: const Color(0xffffe5e5),
+  dialogBackgroundColor: const Color(0xffffffff),
+  indicatorColor: const Color(0xffff0000),
+  hintColor: const Color(0x8a000000),
+  buttonTheme: const ButtonThemeData(
+    padding: EdgeInsets.only(left: 16, right: 16),
     shape: RoundedRectangleBorder(
-      side: BorderSide(
-        color: Color(0xff000000),
-        width: 0,
-        style: BorderStyle.none,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(2.0)),
+      borderRadius: BorderRadius.all(Radius.circular(2)),
     ),
-    alignedDropdown: false,
     buttonColor: Color(0xffe0e0e0),
     disabledColor: Color(0x61000000),
     highlightColor: Color(0x29000000),
@@ -51,9 +30,7 @@ final ThemeData myTheme = ThemeData(
     hoverColor: Color(0x0a000000),
     colorScheme: ColorScheme(
       primary: Color(0xff000000),
-      primaryVariant: Color(0xff990000),
       secondary: Color(0xffff0000),
-      secondaryVariant: Color(0xff990000),
       surface: Color(0xffffffff),
       background: Color(0xffff9999),
       error: Color(0xffd32f2f),
@@ -65,422 +42,305 @@ final ThemeData myTheme = ThemeData(
       brightness: Brightness.light,
     ),
   ),
-  textTheme: TextTheme(
-    headline4: TextStyle(
+  textTheme: const TextTheme(
+    headlineMedium: TextStyle(
       color: Color(0xff000000),
       fontSize: 15,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    headline3: TextStyle(
+    displaySmall: TextStyle(
       color: Color(0xff000000),
       fontSize: 20,
       fontWeight: FontWeight.w500,
       fontStyle: FontStyle.normal,
     ),
-    headline2: TextStyle(
+    displayMedium: TextStyle(
       color: Color(0xff000000),
       fontSize: 25,
       fontWeight: FontWeight.w600,
       fontStyle: FontStyle.normal,
     ),
-    headline1: TextStyle(
+    displayLarge: TextStyle(
       color: Color(0xff000000),
       fontSize: 30,
       fontWeight: FontWeight.w700,
       fontStyle: FontStyle.normal,
     ),
-    headline5: TextStyle(
+    headlineSmall: TextStyle(
       color: Color(0xdd000000),
       fontSize: 13,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    headline6: TextStyle(
+    titleLarge: TextStyle(
       color: Color(0xdd000000),
       fontSize: 10,
       fontWeight: FontWeight.w600,
       fontStyle: FontStyle.normal,
     ),
-    subtitle1: TextStyle(
+    titleMedium: TextStyle(
       color: Color(0xdd000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    bodyText1: TextStyle(
+    bodyLarge: TextStyle(
       color: Color(0xdd000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    bodyText2: TextStyle(
+    bodyMedium: TextStyle(
       color: Color(0xff000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    caption: TextStyle(
+    bodySmall: TextStyle(
       color: Color(0xff000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    button: TextStyle(
+    labelLarge: TextStyle(
       color: Color(0xff000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    subtitle2: TextStyle(
+    titleSmall: TextStyle(
       color: Color(0xff000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    overline: TextStyle(
+    labelSmall: TextStyle(
       color: Color(0xff000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
   ),
-  primaryTextTheme: TextTheme(
-    headline4: TextStyle(
+  primaryTextTheme: const TextTheme(
+    headlineMedium: TextStyle(
       color: Color(0xfffafafa),
       fontSize: 15,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    headline3: TextStyle(
+    displaySmall: TextStyle(
       color: Color(0xfffafafa),
       fontSize: 20,
       fontWeight: FontWeight.w500,
       fontStyle: FontStyle.normal,
     ),
-    headline2: TextStyle(
+    displayMedium: TextStyle(
       color: Color(0xfffafafa),
       fontSize: 25,
       fontWeight: FontWeight.w600,
       fontStyle: FontStyle.normal,
     ),
-    headline1: TextStyle(
+    displayLarge: TextStyle(
       color: Color(0xfffafafa),
       fontSize: 30,
       fontWeight: FontWeight.w700,
       fontStyle: FontStyle.normal,
     ),
-    headline5: TextStyle(
+    headlineSmall: TextStyle(
       color: Color(0xfffafafa),
       fontSize: 13,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    headline6: TextStyle(
+    titleLarge: TextStyle(
       color: Color(0xfffafafa),
       fontSize: 10,
       fontWeight: FontWeight.w600,
       fontStyle: FontStyle.normal,
     ),
-    subtitle1: TextStyle(
+    titleMedium: TextStyle(
       color: Color(0xfffafafa),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    bodyText1: TextStyle(
+    bodyLarge: TextStyle(
       color: Color(0xfffafafa),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    bodyText2: TextStyle(
+    bodyMedium: TextStyle(
       color: Color(0xfffafafa),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    caption: TextStyle(
+    bodySmall: TextStyle(
       color: Color(0xfffafafa),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    button: TextStyle(
+    labelLarge: TextStyle(
       color: Color(0xfffafafa),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    subtitle2: TextStyle(
+    titleSmall: TextStyle(
       color: Color(0xfffafafa),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    overline: TextStyle(
+    labelSmall: TextStyle(
       color: Color(0xfffafafa),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
   ),
-  accentTextTheme: TextTheme(
-    headline4: TextStyle(
-      color: Color(0xb3ffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    headline3: TextStyle(
-      color: Color(0xb3ffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    headline2: TextStyle(
-      color: Color(0xb3ffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    headline1: TextStyle(
-      color: Color(0xb3ffffff),
-      fontSize: 30,
-      fontWeight: FontWeight.w700,
-      fontStyle: FontStyle.normal,
-    ),
-    headline5: TextStyle(
-      color: Color(0xffffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    headline6: TextStyle(
-      color: Color(0xffffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    subtitle1: TextStyle(
-      color: Color(0xffffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    bodyText1: TextStyle(
-      color: Color(0xffffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    bodyText2: TextStyle(
-      color: Color(0xffffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    caption: TextStyle(
-      color: Color(0xb3ffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    button: TextStyle(
-      color: Color(0xffffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    subtitle2: TextStyle(
-      color: Color(0xffffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    overline: TextStyle(
-      color: Color(0xffffffff),
-      fontSize: null,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-  ),
-  inputDecorationTheme: InputDecorationTheme(
+  inputDecorationTheme: const InputDecorationTheme(
     labelStyle: TextStyle(
       color: Color(0xdd000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
     helperStyle: TextStyle(
       color: Color(0xdd000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
     hintStyle: TextStyle(
       color: Color(0xdd000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
     errorStyle: TextStyle(
       color: Color(0xdd000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    errorMaxLines: null,
-    isDense: false,
-    contentPadding: EdgeInsets.only(top: 12, bottom: 12, left: 0, right: 0),
-    isCollapsed: false,
+    contentPadding: EdgeInsets.only(top: 12, bottom: 12),
     prefixStyle: TextStyle(
       color: Color(0xdd000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
     suffixStyle: TextStyle(
       color: Color(0xdd000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
     counterStyle: TextStyle(
       color: Color(0xdd000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
-    filled: false,
     fillColor: Color(0x00000000),
     errorBorder: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: Color(0xff000000),
-        width: 1,
-        style: BorderStyle.solid,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderRadius: BorderRadius.all(Radius.circular(4)),
     ),
     focusedBorder: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: Color(0xff000000),
-        width: 1,
-        style: BorderStyle.solid,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderRadius: BorderRadius.all(Radius.circular(4)),
     ),
     focusedErrorBorder: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: Color(0xff000000),
-        width: 1,
-        style: BorderStyle.solid,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderRadius: BorderRadius.all(Radius.circular(4)),
     ),
     disabledBorder: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: Color(0xff000000),
-        width: 1,
-        style: BorderStyle.solid,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderRadius: BorderRadius.all(Radius.circular(4)),
     ),
     enabledBorder: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: Color(0xff000000),
-        width: 1,
-        style: BorderStyle.solid,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderRadius: BorderRadius.all(Radius.circular(4)),
     ),
     border: UnderlineInputBorder(
-      borderSide: BorderSide(
-        color: Color(0xff000000),
-        width: 1,
-        style: BorderStyle.solid,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(4.0)),
+      borderRadius: BorderRadius.all(Radius.circular(4)),
     ),
   ),
-  iconTheme: IconThemeData(
+  iconTheme: const IconThemeData(
     color: Color(0xdd000000),
     opacity: 1,
     size: 24,
   ),
-  primaryIconTheme: IconThemeData(
+  primaryIconTheme: const IconThemeData(
     color: Color(0xffffffff),
     opacity: 1,
     size: 24,
   ),
-  accentIconTheme: IconThemeData(
-    color: Color(0xffffffff),
-    opacity: 1,
-    size: 24,
-  ),
-  sliderTheme: SliderThemeData(
-    activeTrackColor: null,
-    inactiveTrackColor: null,
-    disabledActiveTrackColor: null,
-    disabledInactiveTrackColor: null,
-    activeTickMarkColor: null,
-    inactiveTickMarkColor: null,
-    disabledActiveTickMarkColor: null,
-    disabledInactiveTickMarkColor: null,
-    thumbColor: null,
-    disabledThumbColor: null,
-    thumbShape: null,
-    overlayColor: null,
-    valueIndicatorColor: null,
-    valueIndicatorShape: null,
-    showValueIndicator: null,
+  sliderTheme: const SliderThemeData(
     valueIndicatorTextStyle: TextStyle(
       color: Color(0xffffffff),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
   ),
-  tabBarTheme: TabBarTheme(
+  tabBarTheme: const TabBarTheme(
     indicatorSize: TabBarIndicatorSize.tab,
     labelColor: Color(0xffffffff),
     unselectedLabelColor: Color(0xb2ffffff),
   ),
-  chipTheme: ChipThemeData(
+  chipTheme: const ChipThemeData(
     backgroundColor: Color(0x1f000000),
     brightness: Brightness.light,
     deleteIconColor: Color(0xde000000),
     disabledColor: Color(0x0c000000),
-    labelPadding: EdgeInsets.only(top: 0, bottom: 0, left: 8, right: 8),
+    labelPadding: EdgeInsets.only(left: 8, right: 8),
     labelStyle: TextStyle(
       color: Color(0xde000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
     padding: EdgeInsets.only(top: 4, bottom: 4, left: 4, right: 4),
     secondaryLabelStyle: TextStyle(
       color: Color(0x3d000000),
-      fontSize: null,
       fontWeight: FontWeight.w400,
       fontStyle: FontStyle.normal,
     ),
     secondarySelectedColor: Color(0x3d000000),
     selectedColor: Color(0x3d000000),
-    shape: StadiumBorder(
-        side: BorderSide(
-      color: Color(0xff000000),
-      width: 0,
-      style: BorderStyle.none,
-    )),
+    shape: StadiumBorder(),
   ),
-  dialogTheme: DialogTheme(
-      shape: RoundedRectangleBorder(
-    side: BorderSide(
-      color: Color(0xff000000),
-      width: 0,
-      style: BorderStyle.none,
-    ),
-    borderRadius: BorderRadius.all(Radius.circular(0.0)),
-  )),
+  dialogTheme: const DialogTheme(
+    shape: RoundedRectangleBorder(),
+  ),
+  textSelectionTheme: const TextSelectionThemeData(
+    cursorColor: Color(0xff4285f4),
+    selectionColor: Color(0xffff9999),
+    selectionHandleColor: Color(0xffff6666),
+  ),
+  checkboxTheme: CheckboxThemeData(
+    fillColor:
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return const Color(0xffcc0000);
+      }
+      return null;
+    }),
+  ),
+  radioTheme: RadioThemeData(
+    fillColor:
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return const Color(0xffcc0000);
+      }
+      return null;
+    }),
+  ),
+  switchTheme: SwitchThemeData(
+    thumbColor:
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return const Color(0xffcc0000);
+      }
+      return null;
+    }),
+    trackColor:
+        MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+      if (states.contains(MaterialState.disabled)) {
+        return null;
+      }
+      if (states.contains(MaterialState.selected)) {
+        return const Color(0xffcc0000);
+      }
+      return null;
+    }),
+  ),
+  bottomAppBarTheme: const BottomAppBarTheme(color: Color(0xffffffff)),
 );

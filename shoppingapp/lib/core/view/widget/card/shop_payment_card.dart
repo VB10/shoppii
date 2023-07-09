@@ -5,24 +5,24 @@ import 'package:shoppingapp/core/view/widget/card/shopping_circle_card.dart';
 import 'package:shoppingapp/features/shop/model/product.dart';
 
 class ShopPaymentCard extends BaseStatelessWidget {
+  const ShopPaymentCard({required this.item, super.key});
   final Product item;
-
-  ShopPaymentCard({Key key, this.item});
   @override
   Widget build(BuildContext context) {
     final currentTheme = Theme.of(context);
     return SizedBox(
-      height: dynamicHeight(context: context, val: 0.1),
+      height: dynamicHeight(context: context, value: 0.1),
       child: Row(
         children: <Widget>[
           circleImage(currentTheme),
-          Spacer(),
+          const Spacer(),
           buildExpandedCountNumber(context),
-          Spacer(),
+          const Spacer(),
           buildExpandedMultiText(context),
-          Spacer(),
-          buildExpandedTitle(context),
-          Spacer(),
+          const Spacer(),
+          if (item.title?.isNotEmpty ?? false)
+            buildExpandedTitle(context, item.title!),
+          const Spacer(),
           buildExpandedMoney(context),
         ],
       ),
@@ -33,28 +33,28 @@ class ShopPaymentCard extends BaseStatelessWidget {
     return Expanded(
       flex: 5,
       child: Text(
-        " \$${item.price * item.count}",
+        ' \$${(item.price ?? 0) * (item.count ?? 0)}',
         textScaleFactor: 0.8,
         maxLines: 2,
         style: Theme.of(context)
             .primaryTextTheme
-            .headline3
-            .copyWith(color: Theme.of(context).splashColor),
+            .displaySmall
+            ?.copyWith(color: Theme.of(context).splashColor),
       ),
     );
   }
 
-  Expanded buildExpandedTitle(BuildContext context) {
+  Expanded buildExpandedTitle(BuildContext context, String title) {
     return Expanded(
       flex: 12,
       child: Text(
-        item.title,
+        title,
         maxLines: 2,
         textScaleFactor: 0.8,
         style: Theme.of(context)
             .primaryTextTheme
-            .headline3
-            .copyWith(fontWeight: FontWeight.bold),
+            .displaySmall
+            ?.copyWith(fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -62,14 +62,14 @@ class ShopPaymentCard extends BaseStatelessWidget {
   Widget buildExpandedMultiText(BuildContext context) {
     return Text(
       AppStrings.instance.multi,
-      style: Theme.of(context).primaryTextTheme.headline3,
+      style: Theme.of(context).primaryTextTheme.displaySmall,
     );
   }
 
   Widget buildExpandedCountNumber(BuildContext context) {
     return Text(
       item.count.toString(),
-      style: Theme.of(context).primaryTextTheme.headline3,
+      style: Theme.of(context).primaryTextTheme.displaySmall,
     );
   }
 

@@ -4,16 +4,15 @@ import '../../../../core/view/widget/counter/number_counter.dart';
 import '../../model/product.dart';
 
 class UpdateProductView extends StatelessWidget {
-  final ProductModel product;
+  final Product product;
   final TextEditingController controller;
-  final Function(ProductModel product) onComplete;
+  final void Function(Product product) onComplete;
 
   const UpdateProductView(
-      {Key key,
-      @required this.product,
-      @required this.controller,
-      this.onComplete})
-      : super(key: key);
+      {super.key,
+      required this.product,
+      required this.controller,
+      required this.onComplete});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -23,18 +22,18 @@ class UpdateProductView extends StatelessWidget {
         children: <Widget>[
           Expanded(child: TextField(controller: controller)),
           NumberCounterWidget(
-            value: product.total,
+            value: product.total?.toDouble() ?? 0,
             onChange: (val) {
-              product.total = val;
+              // product.total = val;
             },
           ),
-          RaisedButton.icon(
+          IconButton(
               onPressed: () {
-                product.price = double.tryParse(controller.text);
-                onComplete(product);
+                onComplete(product.copyWith(
+                  price: double.tryParse(controller.text),
+                ));
               },
-              icon: Icon(Icons.update),
-              label: Text("Update"))
+              icon: Icon(Icons.update))
         ],
       ),
     );

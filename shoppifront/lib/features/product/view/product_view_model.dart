@@ -11,12 +11,12 @@ import '../model/product.dart';
 import '../service/product_service.dart';
 import 'fields/update_product_view.dart';
 
-abstract class ProductViewModel extends BaseState<Product> {
+abstract class ProductViewModel extends BaseState<ProductScreen> {
   IO.Socket socket = IO.io(AppConstants.SOCKET_URL);
 
   final TextEditingController textEditingController1 = TextEditingController();
   final TextEditingController textEditingController2 = TextEditingController();
-  List<ProductModel> products = [];
+  List<Product> products = [];
 
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   ProductService service = ProductService();
@@ -27,7 +27,7 @@ abstract class ProductViewModel extends BaseState<Product> {
     initSocket();
   }
 
-  Future<List<ProductModel>> fetchAllDatas() async {
+  Future<List<Product>> fetchAllDatas() async {
     if (products.isEmpty) {
       products = await service.fetchProducts();
     }
@@ -35,16 +35,19 @@ abstract class ProductViewModel extends BaseState<Product> {
     return products;
   }
 
-  Future onCompleteForm(ProductModel model) async {
+  Future onCompleteForm(Product model) async {
     final response = await service.postProduct(model);
-    if (response is ProductModel) {
+    if (response is Product) {
       products = await service.fetchProducts();
       setState(() {});
     } else {
       final body = jsonEncode(response);
       final jsonModel = jsonDecode(body);
-      scaffoldKey.currentState
-          .showSnackBar(SnackBar(content: Text(jsonModel['message'])));
+      scaffoldKey.currentState?.showBottomSheet(
+        (context) {
+          return Text(jsonModel['message']);
+        },
+      );
     }
   }
 

@@ -1,25 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shoppingapp/core/view/base/base_state.dart';
+import 'package:shoppingapp/core/view/widget/avatar/number_circle_avatar.dart';
+import 'package:shoppingapp/core/view/widget/card/shoping_card.dart';
+import 'package:shoppingapp/core/view/widget/card/shopping_circle_card.dart';
 import 'package:shoppingapp/features/notifier/product_list_notifier.dart';
+import 'package:shoppingapp/features/shop/model/product.dart';
+import 'package:shoppingapp/features/shop/view/shop_view_detail.dart';
 import 'package:shoppingapp/features/shop/viewmodel/shop_view_model.dart';
 
-import '../../../core/view/base/base_state.dart';
-import '../../../core/view/widget/avatar/number_circle_avatar.dart';
-import '../../../core/view/widget/card/shoping_card.dart';
-import '../../../core/view/widget/card/shopping_circle_card.dart';
-import '../model/product.dart';
-import 'shop_view_detail.dart';
-
 class ShopListView extends StatefulWidget {
+  const ShopListView({required this.isUserOnPage, super.key});
   final bool isUserOnPage;
-
-  const ShopListView({Key key, this.isUserOnPage}) : super(key: key);
   @override
   _ShopListViewState createState() => _ShopListViewState();
 }
 
 class _ShopListViewState extends BaseState<ShopListView> {
-  ShopViewModel shopViewModel;
+  late final ShopViewModel shopViewModel;
 
   @override
   void initState() {
@@ -32,19 +30,22 @@ class _ShopListViewState extends BaseState<ShopListView> {
   Widget build(BuildContext context) {
     return FutureBuilder<List<Product>>(
       future: shopViewModel.getAllProduct(),
-      initialData: [],
+      initialData: const [],
       builder: (context, AsyncSnapshot<List<Product>> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
             if (snapshot.hasData) {
-              return _body(snapshot.data);
+              final items = snapshot.data;
+              if (items == null || items.isEmpty) return const SizedBox();
+              return _body(items);
             }
-            return Text("Err");
           default:
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            break;
         }
+
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }
@@ -60,12 +61,12 @@ class _ShopListViewState extends BaseState<ShopListView> {
   Widget buildSubListContainer() {
     return Consumer<ProductListNotifier>(
       builder: (context, value, child) => AnimatedContainer(
-        height: value.productList.length <= 0 || !widget.isUserOnPage
+        height: value.productList.isEmpty || !widget.isUserOnPage
             ? 0
             : dynamicHeight(0.1),
         decoration: BoxDecoration(color: currentTheme.primaryColor),
         padding: EdgeInsets.symmetric(horizontal: dynamicHeight(0.02)),
-        duration: Duration(milliseconds: 500),
+        duration: const Duration(milliseconds: 500),
         child: buildRow(value),
       ),
     );
@@ -105,30 +106,31 @@ class _ShopListViewState extends BaseState<ShopListView> {
   Widget buildExpandedBody() {
     return Expanded(
       child: ChangeNotifierProvider<ShopViewModel>.value(
-          value: shopViewModel,
-          child: Consumer<ShopViewModel>(
-            builder: (context, value, child) => Card(
-              color: currentTheme.canvasColor,
-              margin: EdgeInsets.zero,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(
-                    dynamicHeight(0.05),
-                  ),
-                ),
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(bottom: dynamicHeight(0.03)),
-                child: CustomScrollView(
-                  slivers: <Widget>[
-                    buildSliverAppBar(),
-                    buildSliverProductGrid()
-                  ],
+        value: shopViewModel,
+        child: Consumer<ShopViewModel>(
+          builder: (context, value, child) => Card(
+            color: currentTheme.canvasColor,
+            margin: EdgeInsets.zero,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(
+                  dynamicHeight(0.05),
                 ),
               ),
             ),
-          )),
+            child: Padding(
+              padding: EdgeInsets.only(bottom: dynamicHeight(0.03)),
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  buildSliverAppBar(),
+                  buildSliverProductGrid()
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -142,11 +144,11 @@ class _ShopListViewState extends BaseState<ShopListView> {
       flexibleSpace: FlexibleSpaceBar(
         title: Text(
           appStrings.shopConstants.title,
-          style: currentTheme.textTheme.headline3
-              .copyWith(color: currentTheme.primaryColor),
+          style: currentTheme.textTheme.displaySmall
+              ?.copyWith(color: currentTheme.primaryColor),
         ),
         centerTitle: false,
-        titlePadding: EdgeInsets.only(left: 10),
+        titlePadding: const EdgeInsets.only(left: 10),
       ),
     );
   }
@@ -172,26 +174,30 @@ class _ShopListViewState extends BaseState<ShopListView> {
   }
 
   //1.3
-  Widget get text => Text(appStrings.shopConstants.subTitle,
-      style: currentTheme.textTheme.headline3
-          .copyWith(color: currentTheme.canvasColor));
+  Widget get text => Text(
+        appStrings.shopConstants.subTitle,
+        style: currentTheme.textTheme.displaySmall
+            ?.copyWith(color: currentTheme.canvasColor),
+      );
 
   // 1.3
   Hero buildHero(int index, Product product) {
     return Hero(
-        tag: appStrings.listHeroTag(index),
-        child: ShoppingCard(product: product));
+      tag: appStrings.listHeroTag(index),
+      child: ShoppingCard(product: product),
+    );
   }
 
   Future<void> productCardOnPressed(int index, Product product) async {
-    final data = await Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => ShopDetailView(data: product, index: index),
-    ));
+    final data = await Navigator.of(context).push<Product?>(
+      MaterialPageRoute(
+        builder: (context) => ShopDetailView(data: product, index: index),
+      ),
+    );
     if (data == null) {
       return;
     } else {
-      if (shopViewModel.subList.contains((data))) {
-      } else {
+      if (!shopViewModel.subList.contains(data)) {
         shopViewModel.subList.add(data);
       }
       setState(() {});

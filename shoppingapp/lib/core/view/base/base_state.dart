@@ -8,12 +8,14 @@ abstract class BaseState<T extends StatefulWidget> extends State<T> {
   AppStrings get appStrings => AppStrings.instance;
   AppConstants get appConstants => AppConstants.instance;
 
-  double dynamicHeight(double val) => MediaQuery.of(context).size.height * val;
-  double dynamicWidth(double val) => MediaQuery.of(context).size.width * val;
+  double dynamicHeight(double value) =>
+      MediaQuery.of(context).size.height * value;
+  double dynamicWidth(double value) =>
+      MediaQuery.of(context).size.width * value;
 
-  EdgeInsets insetsAll(double val) => EdgeInsets.all(dynamicHeight(val));
-  EdgeInsets insetHorizontal(double val) =>
-      EdgeInsets.symmetric(horizontal: dynamicHeight(val));
-  EdgeInsets insetVertical(double val) =>
-      EdgeInsets.symmetric(horizontal: dynamicHeight(val));
+  EdgeInsets insetsAll(double value) => EdgeInsets.all(dynamicHeight(value));
+  EdgeInsets insetHorizontal(double value) =>
+      EdgeInsets.symmetric(horizontal: dynamicHeight(value));
+  EdgeInsets insetVertical(double value) =>
+      EdgeInsets.symmetric(horizontal: dynamicHeight(value));
 }

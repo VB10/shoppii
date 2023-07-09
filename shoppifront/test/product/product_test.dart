@@ -8,22 +8,22 @@ main() {
   final myDio = BaseService().service;
 
   test('Post Product2', () async {
-    final model = ProductModel(
+    final model = Product(
         image: "https://source.unsplash.com/1600x900/?pasta",
         price: 500,
         total: 10,
         title: "Italian Pasta,Granoro Penne R234",
         weight: 400);
     final response = await myDio.make("product",
-        parserModel: ProductModel(), data: model, method: MethodType.POST);
+        parserModel: Product(), data: model, method: MethodType.POST);
 
-    expect(response is ProductModel, true);
+    expect(response is Product, true);
   });
 
   test('Test Product List', () async {
-    final response = await myDio.make<ProductModel>("product",
-        method: MethodType.GET, parserModel: ProductModel());
+    final response = await myDio.make<Product>("product",
+        method: MethodType.GET, parserModel: Product());
 
-    expect(response is List<ProductModel>, true);
+    expect(response is List<Product>, true);
   });
 }

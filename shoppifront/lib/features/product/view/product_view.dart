@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shoppifront/features/product/model/product.dart';
 import './product_view_model.dart';
 import 'fields/create_product_view.dart';
@@ -27,13 +26,17 @@ class ProductView extends ProductViewModel {
     );
   }
 
-  FutureBuilder<List<ProductModel>> buildFutureBuilder() {
-    return FutureBuilder<List<ProductModel>>(
+  FutureBuilder<List<Product>> buildFutureBuilder() {
+    return FutureBuilder<List<Product>>(
       future: fetchAllDatas(),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            if (snapshot.hasData) return buildListViewWidget(snapshot.data);
+            final items = snapshot.data;
+            if (snapshot.hasData)
+              return items == null || items.isEmpty
+                  ? SizedBox()
+                  : buildListViewWidget(items);
             return Text("error");
           default:
             return Center(
@@ -60,7 +63,7 @@ class ProductView extends ProductViewModel {
               TextFormField(
                   decoration: InputDecoration(hintText: "Product Image")),
               TextFormField(
-                  inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                  // inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                   decoration: InputDecoration(hintText: "Product Price")),
               FloatingActionButton.extended(
                   onPressed: () {}, label: Text("Save"))
@@ -69,13 +72,13 @@ class ProductView extends ProductViewModel {
         ),
       );
 
-  ListView buildListViewWidget(List<ProductModel> data) {
+  ListView buildListViewWidget(List<Product> data) {
     return ListView.builder(
       itemBuilder: (context, index) => Card(
         child: ListTile(
-          title: Text(data[index].title),
+          title: Text(data[index].title ?? ''),
           subtitle: Text("${data[index].weight}g  Total: ${data[index].total}"),
-          leading: Image.network(data[index].image),
+          leading: Image.network(data[index].image ?? ''),
           trailing: IconButton(
               icon: Icon(Icons.edit), onPressed: () => showProductSheet(index)),
         ),

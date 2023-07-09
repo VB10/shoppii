@@ -1,47 +1,48 @@
 import 'dart:convert';
 
-import 'package:dio/adapter_browser.dart';
+import 'package:dio/browser.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
 
 import 'base_model.dart';
 
 class ShoppiDio with DioMixin implements Dio {
-  static ShoppiDio _instance;
-
-  static ShoppiDio get instance {
-    if (_instance == null) {
-      _instance = ShoppiDio._init();
-    }
-    return _instance;
-  }
-
   ShoppiDio._init() {
-    this.options = BaseOptions(
-      baseUrl: "http://localhost:4000/",
-      connectTimeout: 5000,
-      receiveTimeout: 3000,
+    String baseUrl = 'http://localhost:4000/';
+
+    options = BaseOptions(
+      baseUrl: baseUrl,
+      connectTimeout: const Duration(seconds: 5),
+      receiveTimeout: const Duration(seconds: 3),
     );
     httpClientAdapter = BrowserHttpClientAdapter();
+    interceptors.add(LogInterceptor(responseBody: true));
   }
 
-  Future make<T extends BaseModel>(String path,
-      {Map<String, dynamic> queryParameters,
-      Options options,
-      CancelToken cancelToken,
-      @required T parserModel,
-      dynamic data,
-      @required MethodType method,
-      ProgressCallback onReceiveProgress}) async {
+  static ShoppiDio? _instance;
+
+  static ShoppiDio get instance {
+    _instance ??= ShoppiDio._init();
+    return _instance!;
+  }
+
+  Future<dynamic> make<T extends BaseModel>(
+    String path, {
+    required T parserModel,
+    required MethodType method,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    CancelToken? cancelToken,
+    dynamic data,
+    ProgressCallback? onReceiveProgress,
+  }) async {
     final options = Options();
     options.method = getMethodType(method);
     final body = getBodyModel(data);
 
     try {
-      Response response = await request(path, data: body, options: options);
-      clear();
+      final response = await request(path, data: body, options: options);
       return parseBody<T>(response.data, parserModel);
-    } catch (e) {
+    } on DioException catch (e) {
       return onError(e);
     }
   }
@@ -49,11 +50,9 @@ class ShoppiDio with DioMixin implements Dio {
   String getMethodType(MethodType type) {
     switch (type) {
       case MethodType.GET:
-        return "GET";
+        return 'GET';
       case MethodType.POST:
-        return "POST";
-      default:
-        return null;
+        return 'POST';
     }
   }
 
@@ -62,9 +61,11 @@ class ShoppiDio with DioMixin implements Dio {
       return data;
     } else if (data is BaseModel) {
       return data.toJson();
-    } else {
+    } else if (data is String) {
       return jsonDecode(data);
     }
+
+    return null;
   }
 
   dynamic parseBody<T extends BaseModel>(dynamic responseBody, T model) {
@@ -74,20 +75,18 @@ class ShoppiDio with DioMixin implements Dio {
             .map((data) => model.fromJson(data))
             .cast<T>()
             .toList();
-      } else if (responseBody is Map) {
+      } else if (responseBody is Map<String, Object>) {
         return model.fromJson(responseBody) as T;
       } else {
         return responseBody;
       }
     } catch (e) {
-      print(e);
       return responseBody;
     }
   }
 
-  onError(DioError error) {
-    // TODO BASE MODEL
-    return "Error";
+  String onError(DioException error) {
+    return 'Error';
   }
 }
 

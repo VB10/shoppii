@@ -33,9 +33,9 @@ class _ShopViewState extends BaseState<ShopView> {
 
   bool get isShopPage => currentPage == PageViews.PRODUCT_LIST.index;
 
-  void onPageChanged(int val) {
+  void onPageChanged(int value) {
     setState(() {
-      currentPage = val;
+      currentPage = value;
     });
   }
 

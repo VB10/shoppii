@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:lipsum/lipsum.dart' as lipsum;
 import 'package:provider/provider.dart';
+import 'package:shoppingapp/core/constants/app_strings.dart';
 import 'package:shoppingapp/core/view/base/base_stateless.dart';
+import 'package:shoppingapp/core/view/widget/button/circle_button.dart';
 import 'package:shoppingapp/core/view/widget/container/empty_widget.dart';
+import 'package:shoppingapp/core/view/widget/picker/number_picker.dart';
 import 'package:shoppingapp/features/notifier/product_list_notifier.dart';
-
-import '../../../core/constants/app_strings.dart';
-import '../../../core/view/widget/button/circle_button.dart';
-import '../../../core/view/widget/picker/number_picker.dart';
-import '../model/product.dart';
+import 'package:shoppingapp/features/shop/model/product.dart';
 
 class ShopDetailView extends BaseStatelessWidget {
+  const ShopDetailView({required this.data, required this.index, super.key});
   final Product data;
   final int index;
-
-  ShopDetailView({Key key, this.data, this.index});
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -28,7 +26,8 @@ class ShopDetailView extends BaseStatelessWidget {
       bottomNavigationBar: buildBottomSafeArea(context, textTheme, colorScheme),
       body: ListView(
         padding: EdgeInsets.symmetric(
-            horizontal: dynamicWidth(context: context, val: 0.1)),
+          horizontal: dynamicWidth(context: context, value: 0.1),
+        ),
         children: <Widget>[
           buildHeroImage(),
           emptyWidget,
@@ -47,24 +46,32 @@ class ShopDetailView extends BaseStatelessWidget {
   }
 
   EdgeInsetsGeometry _padding(BuildContext context) => EdgeInsets.symmetric(
-      horizontal: dynamicWidth(context: context, val: 0.1));
+        horizontal: dynamicWidth(context: context, value: 0.1),
+      );
 
-  Widget get emptyWidget => EmptyHeightWidget(
-        val: 0.02,
+  Widget get emptyWidget => const EmptyHeightWidget(
+        value: 0.02,
       );
 
   SafeArea buildBottomSafeArea(
-      BuildContext context, TextTheme textTheme, ColorScheme colorScheme) {
+    BuildContext context,
+    TextTheme textTheme,
+    ColorScheme colorScheme,
+  ) {
     return SafeArea(
       child: Container(
-          padding: _padding(context),
-          color: Colors.white70,
-          child: buildBottomNavigationBar(context, textTheme, colorScheme)),
+        padding: _padding(context),
+        color: Colors.white70,
+        child: buildBottomNavigationBar(context, textTheme, colorScheme),
+      ),
     );
   }
 
   Widget buildHeroAddToCard(
-      BuildContext context, TextTheme textTheme, ColorScheme colorScheme) {
+    BuildContext context,
+    TextTheme textTheme,
+    ColorScheme colorScheme,
+  ) {
     return FloatingActionButton.extended(
       heroTag: AppStrings.instance.subHeroTag(index),
       backgroundColor: Theme.of(context).primaryColorDark,
@@ -75,18 +82,23 @@ class ShopDetailView extends BaseStatelessWidget {
       },
       label: Text(
         AppStrings.instance.addToCard,
-        style: textTheme.headline4.copyWith(
-            fontWeight: FontWeight.bold, color: colorScheme.onSurface),
+        style: textTheme.headlineMedium?.copyWith(
+          fontWeight: FontWeight.bold,
+          color: colorScheme.onSurface,
+        ),
       ),
     );
   }
 
   Widget buildBottomNavigationBar(
-      BuildContext context, TextTheme textTheme, ColorScheme colorScheme) {
+    BuildContext context,
+    TextTheme textTheme,
+    ColorScheme colorScheme,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        CircleIconButton(),
+        const CircleIconButton(),
         Expanded(
           child: buildHeroAddToCard(context, textTheme, colorScheme),
         )
@@ -95,15 +107,17 @@ class ShopDetailView extends BaseStatelessWidget {
   }
 
   Text lipsumGenerator(TextTheme textTheme) {
-    return Text(lipsum.createParagraph(numParagraphs: 3),
-        style: textTheme.headline4);
+    return Text(
+      lipsum.createParagraph(numParagraphs: 3),
+      style: textTheme.headlineMedium,
+    );
   }
 
   Text buildSubTitleText(TextTheme textTheme, ColorScheme colorScheme) {
     return Text(
       AppStrings.instance.aboutProduct,
-      style: textTheme.headline3
-          .copyWith(color: colorScheme.onSurface, fontWeight: FontWeight.bold),
+      style: textTheme.displaySmall
+          ?.copyWith(color: colorScheme.onSurface, fontWeight: FontWeight.bold),
       maxLines: 2,
     );
   }
@@ -115,13 +129,16 @@ class ShopDetailView extends BaseStatelessWidget {
         NumberPicker(
           number: data.count,
           onChanged: (value) {
-            data.count = value;
+            //TODO: add count
+            // data.count = value;
           },
         ),
         Text(
-          "\$${data.price.toString()}",
-          style: textTheme.headline1.copyWith(
-              color: colorScheme.onSurface, fontWeight: FontWeight.bold),
+          '\$${data.price}',
+          style: textTheme.displayLarge?.copyWith(
+            color: colorScheme.onSurface,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     );
@@ -129,25 +146,28 @@ class ShopDetailView extends BaseStatelessWidget {
 
   Text buildWeightText(TextTheme textTheme) {
     return Text(
-      "${data.weight.toInt().toString()} g",
-      style: textTheme.headline4,
+      '${data.weight} g',
+      style: textTheme.headlineMedium,
     );
   }
 
   Text buildTitleText(BuildContext context, ColorScheme colorScheme) {
     return Text(
-      data.title,
+      data.title ?? '',
       style: currentTextTheme(context)
-          .headline1
-          .copyWith(fontWeight: FontWeight.bold),
+          .displayLarge
+          ?.copyWith(fontWeight: FontWeight.bold),
       maxLines: 2,
     );
   }
 
-  Hero buildHeroImage() {
+  Widget buildHeroImage() {
+    if (data.image == null) {
+      return const SizedBox();
+    }
     return Hero(
       tag: AppStrings.instance.listHeroTag(index),
-      child: AspectRatio(aspectRatio: 1, child: Image.network(data.image)),
+      child: AspectRatio(aspectRatio: 1, child: Image.network(data.image!)),
     );
   }
 }

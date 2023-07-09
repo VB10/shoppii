@@ -5,10 +5,10 @@ class NumberCounterWidget extends StatefulWidget {
   final Function(double val) onChange;
 
   const NumberCounterWidget({
-    Key key,
-    this.value,
-    this.onChange,
-  }) : super(key: key);
+    super.key,
+    required this.value,
+    required this.onChange,
+  });
 
   @override
   _NumberCounterWidgetState createState() => _NumberCounterWidgetState();

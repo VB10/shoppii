@@ -1,4 +1,4 @@
-import 'shop_dio_service.dart';
+import 'package:shoppingapp/core/service/shop_dio_service.dart';
 
 class BaseService {
   ShoppiDioService service = ShoppiDioService.instance;
@@ -7,17 +7,14 @@ class BaseService {
 }
 
 class _RoutePath {
-  static _RoutePath _instance;
+  _RoutePath._init();
+  static _RoutePath? _instance;
 
   static _RoutePath get instance {
-    if (_instance == null) {
-      _instance = _RoutePath._init();
-    }
-    return _instance;
+    _instance ??= _RoutePath._init();
+    return _instance!;
   }
 
-  _RoutePath._init();
-
-  String get product => "product";
-  String get hello => "hello";
+  String get product => 'product';
+  String get hello => 'hello';
 }
